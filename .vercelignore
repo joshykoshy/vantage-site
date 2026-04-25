@@ -1,0 +1,7 @@
+node_modules
+.gemini
+.agents
+*.zip
+Vantage V01 Components
+deploy.bat
+vantage-narrator-extension

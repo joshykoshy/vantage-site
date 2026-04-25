@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vantage Narrator Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">👁</span>
+      <div>
+        <h1>Vantage Narrator Pro</h1>
+        <p class="tagline">AI Audio Description for YouTube</p>
+      </div>
+    </div>
+    <label class="toggle" aria-label="Enable or disable Vantage Narrator Pro">
+      <input type="checkbox" id="toggle-enabled" checked>
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <section class="status-bar" id="status-bar" aria-live="polite">
+    <span id="status-dot" class="dot dot--inactive"></span>
+    <span id="status-text">Checking...</span>
+  </section>
+
+  <main>
+    <section class="card">
+      <h2>AI Backend</h2>
+      <div class="radio-group" role="radiogroup" aria-label="AI method selection">
+        <label class="radio-option" id="label-ollama">
+          <input type="radio" name="method" value="ollama" id="radio-ollama">
+          <div class="radio-content">
+            <strong>Local · Ollama</strong>
+            <span>Zero latency · fully private</span>
+          </div>
+        </label>
+        <label class="radio-option" id="label-openrouter">
+          <input type="radio" name="method" value="openrouter" id="radio-openrouter">
+          <div class="radio-content">
+            <strong>Cloud · OpenRouter</strong>
+            <span>Higher fidelity · requires API key</span>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <section class="card" id="ollama-config">
+      <h2>Ollama Settings</h2>
+      <label class="field">
+        <span>Server URL</span>
+        <input type="url" id="ollama-url" placeholder="http://localhost:11434">
+      </label>
+      <label class="field">
+        <span>Model</span>
+        <input type="text" id="ollama-model" placeholder="llava">
+      </label>
+    </section>
+
+    <section class="card hidden" id="openrouter-config">
+      <h2>OpenRouter Settings</h2>
+      <label class="field">
+        <span>API Key</span>
+        <input type="password" id="openrouter-key" placeholder="sk-or-...">
+      </label>
+      <label class="field">
+        <span>Model</span>
+        <select id="openrouter-model">
+          <option value="google/gemini-flash-1.5">Gemini Flash 1.5 (fast)</option>
+          <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+          <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
+          <option value="google/gemini-2.0-flash-exp">Gemini 2.0 Flash</option>
+        </select>
+      </label>
+    </section>
+
+    <button id="save-btn" class="btn-save">Save Settings</button>
+    <p id="save-feedback" class="feedback hidden" aria-live="polite">Settings saved.</p>
+  </main>
+</body>
+<script src="popup.js"></script>
+</html>

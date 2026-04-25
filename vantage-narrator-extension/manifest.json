@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Vantage Narrator",
+  "version": "1.0.0",
+  "description": "Giving your screen reader eyes. AI-powered image descriptions, video narration, and spatial layout summaries for the visually impaired.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "offscreen",
+    "tts"
+  ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Vantage Narrator Settings"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "spatial-summary": {
+      "suggested_key": {
+        "default": "Alt+S"
+      },
+      "description": "Summarize the spatial layout of the current page"
+    },
+    "describe-element": {
+      "suggested_key": {
+        "default": "Alt+D"
+      },
+      "description": "Describe the focused element or current video frame"
+    }
+  }
+}
