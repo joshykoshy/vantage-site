@@ -32,6 +32,7 @@ const Navbar = () => {
         { name: 'Narrator', path: '/narrator' },
         { name: 'Narrator Pro', path: '/narrator-pro' },
         { name: 'Manifesto', path: '/manifesto' },
+        { name: 'Pitch Deck', path: '/pitch-deck' },
     ];
 
     return (
