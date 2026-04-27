@@ -6,7 +6,8 @@ const ScrollSequenceBackground = ({ progress }) => {
     const canvasRef = useRef(null);
     const [images, setImages] = useState([]);
     const [imagesLoaded, setImagesLoaded] = useState(false);
-    
+    const [hasScrolled, setHasScrolled] = useState(false);
+
     useEffect(() => {
         const loadedImages = [];
         let loadedCount = 0;
@@ -17,7 +18,6 @@ const ScrollSequenceBackground = ({ progress }) => {
             img.src = `/frames/${indexStr}.png`;
             img.onload = () => {
                 loadedCount++;
-                // Trigger a render when the first frame loads, or when all load
                 if (loadedCount === 1 || loadedCount === FRAME_COUNT) {
                     setImagesLoaded(true);
                 }
@@ -27,6 +27,14 @@ const ScrollSequenceBackground = ({ progress }) => {
         setImages(loadedImages);
     }, []);
 
+    // Watch progress — the moment user scrolls past 0, reveal the canvas
+    useEffect(() => {
+        const unsubscribeScroll = progress.on('change', (v) => {
+            if (v > 0) setHasScrolled(true);
+        });
+        return () => unsubscribeScroll();
+    }, [progress]);
+
     useEffect(() => {
         if (!canvasRef.current || images.length === 0) return;
         
@@ -35,7 +43,6 @@ const ScrollSequenceBackground = ({ progress }) => {
         
         let animationFrameId;
         
-        // Render whenever progress changes
         const render = (latestProgress) => {
             const frameIndex = Math.min(
                 FRAME_COUNT - 1,
@@ -45,7 +52,6 @@ const ScrollSequenceBackground = ({ progress }) => {
             const image = images[frameIndex];
             
             if (image && image.complete) {
-                // To fill the canvas similar to object-cover
                 const canvasAspect = canvas.width / canvas.height;
                 const imageAspect = image.width / image.height;
                 
@@ -73,14 +79,13 @@ const ScrollSequenceBackground = ({ progress }) => {
         });
         
         const handleResize = () => {
-            // Set canvas logic pixel dimensions to window pixel dimensions
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             render(progress.get());
         };
         
         window.addEventListener('resize', handleResize);
-        handleResize(); // trigger initial render
+        handleResize();
 
         return () => {
             unsubscribe();
@@ -91,8 +96,12 @@ const ScrollSequenceBackground = ({ progress }) => {
 
     return (
         <div className="w-full h-full relative overflow-hidden pointer-events-none bg-vantage-black">
-            {/* The canvas handles object-cover through its rendering logic, removed object-cover class just to be strictly predictable */}
-            <canvas ref={canvasRef} className="w-full h-full opacity-100"></canvas>
+            {/* Canvas stays invisible (black) until user starts scrolling, then fades in */}
+            <canvas
+                ref={canvasRef}
+                className="w-full h-full transition-opacity duration-700 ease-out"
+                style={{ opacity: hasScrolled ? 1 : 0 }}
+            />
             
             {/* Subtle bottom gradient to blend into next section */}
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-vantage-black/80"></div>
