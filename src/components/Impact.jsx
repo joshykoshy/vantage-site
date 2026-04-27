@@ -13,7 +13,7 @@ const Impact = () => {
                 <div className="flex flex-wrap justify-center gap-12 md:gap-24 mb-24">
                     <PartnerLogo name="ZHO" />
                     <PartnerLogo name="AL NOOR" />
-                    <PartnerLogo name="EXPO CITY" />
+                    <PartnerLogo name="EXPO CITY DUBAI FOUNDATION" />
                 </div>
 
                 <div className="max-w-4xl mx-auto border-t border-white/5 pt-16">

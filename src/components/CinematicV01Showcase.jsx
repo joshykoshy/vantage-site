@@ -28,9 +28,9 @@ const COMPONENTS = [
     },
     {
         title: "Neural Core",
-        subtitle: "48 AI TOPS CPU",
-        image: "/images/v01-components/Qualcomm RB5 Gen2.png",
-        text: "Desktop-class AI, built for the edge. Pushing 48 AI TOPS of computational power, the brain behind Vantage makes split-second safety decisions entirely offline. Offloaded to a sleek belt-pack to keep the halo featherlight."
+        subtitle: "Lantronix Open-Q™ 5165RB",
+        image: "/images/v01-components/Lantronix Open-Q 5165RB.png",
+        text: "Edge AI in an ultra-compact 50×29mm form factor. Powered by the Qualcomm® QRB5165 SoC with 15 AI TOPS, 8GB LPDDR5 RAM, and Wi-Fi 6 connectivity—the Lantronix Open-Q™ 5165RB SOM runs advanced neural networks, computer vision, and object detection entirely on-device."
     },
     {
         title: "Halo Chassis",

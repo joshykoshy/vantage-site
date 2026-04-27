@@ -26,7 +26,7 @@ const Partners = () => {
                         className="flex flex-col items-center gap-4 group"
                     >
                         <div className="w-24 h-24 rounded-full bg-white/10 flex items-center justify-center font-bold text-white text-xl text-center p-2">
-                            Expo City
+                            ECDF
                         </div>
                         <span className="text-sm text-white/50 group-hover:text-white transition-colors">Incubator</span>
                     </motion.div>
