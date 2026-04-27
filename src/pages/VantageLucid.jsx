@@ -95,13 +95,13 @@ const ArchNode = ({ label, sublabel, accent, delay }) => (
 /*                       MAIN PAGE COMPONENT                       */
 /* ═══════════════════════════════════════════════════════════════ */
 
-const NarratorPro = () => {
+const VantageLucid = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [activeBackend, setActiveBackend] = useState('ollama');
 
   const faqs = [
     {
-      q: 'What AI models does Narrator Pro support?',
+      q: 'What AI models does Vantage Lucid support?',
       a: 'Out of the box, it supports any Ollama-compatible vision model (LLaVA, BakLLaVA, etc.) running locally, plus cloud models via OpenRouter including GPT-4o Mini, Gemini Flash 1.5, and Claude 3 Haiku. You can configure the model in the extension popup.'
     },
     {
@@ -148,7 +148,7 @@ const NarratorPro = () => {
               className="inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full border border-vantage-electric/20 bg-vantage-electric/[0.06] text-vantage-electric text-sm font-medium tracking-wide"
             >
               <Eye size={16} />
-              <span>Narrator Pro — Chrome Extension</span>
+              <span>Vantage Lucid — Chrome Extension</span>
             </motion.div>
 
             {/* Headline */}
@@ -159,7 +159,7 @@ const NarratorPro = () => {
 
             {/* Subhead */}
             <p className="text-[#a0a0a0] text-lg md:text-xl font-light tracking-wide leading-relaxed mb-14 max-w-3xl mx-auto">
-              Narrator Pro listens for silent gaps in YouTube videos, captures the frame via GPU compositor, 
+              Vantage Lucid listens for silent gaps in YouTube videos, captures the frame via GPU compositor, 
               and whispers a one-sentence visual description through TTS — so you never miss what's on screen.
             </p>
 
@@ -237,7 +237,7 @@ const NarratorPro = () => {
               viewport={{ once: true }}
               className="text-4xl md:text-5xl font-bold text-white mb-6 font-display uppercase tracking-tight"
             >
-              How Narrator Pro Works
+              How Vantage Lucid Works
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -487,7 +487,7 @@ const NarratorPro = () => {
 
               <div className="space-y-5">
                 {[
-                  { step: '1', title: 'Load Extension', desc: 'Go to chrome://extensions → Enable Developer Mode → Load Unpacked → Select the vantage-narrator-pro folder.' },
+                  { step: '1', title: 'Load Extension', desc: 'Go to chrome://extensions → Enable Developer Mode → Load Unpacked → Select the vantage-vantage-lucid folder.' },
                   { step: '2', title: 'Start Ollama', desc: 'Run `ollama serve` in terminal. Pull a vision model: `ollama pull llava`. The extension connects automatically.' },
                   { step: '3', title: 'Open YouTube', desc: 'Navigate to any YouTube video. The content script auto-attaches. Check DevTools for "[Vantage] Audio pipeline connected".' },
                   { step: '4', title: 'Listen', desc: 'During a silent gap (>2.5s), the extension captures the frame, sends it to AI, and speaks the description. That\'s it.' },
@@ -539,7 +539,7 @@ const NarratorPro = () => {
                     
                     <div className="mt-4 pt-4 border-t border-white/[0.06]">
                       <div className="text-[10px] text-[#555] tracking-wider uppercase mb-2">Chrome DevTools Console</div>
-                      <div className="text-green-400/80 text-xs">[Vantage Narrator Pro] Initialising...</div>
+                      <div className="text-green-400/80 text-xs">[Vantage Vantage Lucid] Initialising...</div>
                       <div className="text-green-400/80 text-xs">[Vantage] Audio pipeline connected via MediaElementSource.</div>
                       <div className="text-yellow-400/70 text-xs mt-1">[Vantage] Silence threshold met — requesting AI description.</div>
                       <div className="text-cyan-400/80 text-xs mt-1">[Vantage] TTS → "A woman in a red dress walks through a dimly lit corridor."</div>
@@ -580,7 +580,7 @@ const NarratorPro = () => {
               transition={{ delay: 0.1 }}
               className="text-[#888] max-w-2xl mx-auto text-lg"
             >
-              You have Gemma and DeepSeek Coder installed locally — here's how to use vision models with Narrator Pro.
+              You have Gemma and DeepSeek Coder installed locally — here's how to use vision models with Vantage Lucid.
             </motion.p>
           </div>
 
@@ -599,7 +599,7 @@ const NarratorPro = () => {
                     <h4 className="text-yellow-400 font-semibold text-sm mb-1">Important: Vision Models Required</h4>
                     <p className="text-[#999] text-sm leading-relaxed">
                       Gemma and DeepSeek Coder are <strong className="text-white">text-only</strong> models — they cannot process images. 
-                      Narrator Pro requires a <strong className="text-white">Vision-Language Model (VLM)</strong> that can understand image input.
+                      Vantage Lucid requires a <strong className="text-white">Vision-Language Model (VLM)</strong> that can understand image input.
                     </p>
                   </div>
                 </div>
@@ -711,7 +711,7 @@ const NarratorPro = () => {
               <span className="absolute inset-0 bg-gradient-to-r from-vantage-electric/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <span className="relative flex items-center gap-3">
                 <Download size={22} />
-                Download Narrator Pro
+                Download Vantage Lucid
               </span>
             </motion.button>
           </motion.div>
@@ -721,4 +721,4 @@ const NarratorPro = () => {
   );
 };
 
-export default NarratorPro;
+export default VantageLucid;

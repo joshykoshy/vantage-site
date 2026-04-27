@@ -6,8 +6,7 @@ import Home from './pages/Home';
 import Manifesto from './pages/Manifesto';
 import VantageVO1 from './pages/VantageVO1';
 import Contact from './pages/Contact';
-import Narrator from './pages/Narrator';
-import NarratorPro from './pages/NarratorPro';
+import VantageLucid from './pages/VantageLucid';
 import PitchDeck from './pages/PitchDeck';
 import { useEffect } from 'react';
 
@@ -31,8 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/manifesto" element={<Manifesto />} />
           <Route path="/vantage-vo1" element={<VantageVO1 />} />
-          <Route path="/narrator" element={<Narrator />} />
-          <Route path="/narrator-pro" element={<NarratorPro />} />
+          <Route path="/vantage-lucid" element={<VantageLucid />} />
           <Route path="/pitch-deck" element={<PitchDeck />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
