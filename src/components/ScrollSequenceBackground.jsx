@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const FRAME_COUNT = 110;
+const FRAME_COUNT = 200;
 
 const ScrollSequenceBackground = ({ progress }) => {
     const canvasRef = useRef(null);
