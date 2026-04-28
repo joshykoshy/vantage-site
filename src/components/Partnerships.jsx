@@ -57,7 +57,7 @@ const Partnerships = () => {
             icon: Lightbulb,
             title: "Incubated Startup",
             subtitle: "Expo City Dubai Foundation",
-            image: "/images/achievements/Expo Change Makers Academy.jpg",
+            image: "/images/achievements/Expo City Incubation.png",
             description: "Incubated within Dubai's premier ecosystem for social innovation at Expo City, gaining access to an Urban Lab testbed, strategic partnerships, global visibility, and cross-sector networking with major industry players."
         },
         {
