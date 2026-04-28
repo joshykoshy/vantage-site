@@ -5,6 +5,7 @@ import V01ComponentShowcase from '../components/V01ComponentShowcase';
 import VisionForEveryone from '../components/VisionForEveryone';
 import VO1Features from '../components/VO1Features';
 import CinematicV01Showcase from '../components/CinematicV01Showcase';
+import AchievementsBar from '../components/AchievementsBar';
 
 const VantageVO1 = () => {
     const scrollRef = useRef(null);
@@ -69,6 +70,9 @@ const VantageVO1 = () => {
 
             {/* ── PART 2: Component Flywheel (continuous scroll, no gap) ────────── */}
             <CinematicV01Showcase />
+
+            {/* ── PART 3: Achievements Bar (same style as homepage) ─────────────── */}
+            <AchievementsBar />
 
             {/* ── PART 3: Static content ────────────────────────────────────────── */}
             <section className="relative z-20 bg-vantage-black pt-32 pb-24 border-t border-white/[0.03]">

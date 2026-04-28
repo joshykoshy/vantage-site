@@ -48,14 +48,14 @@ const Partnerships = () => {
         },
         {
             icon: Award,
-            title: "Grant Recipient",
+            title: "Incubated Startup",
             subtitle: "Expo Change Makers Academy",
             image: "/images/achievements/Expo Change Makers Academy.jpg",
             description: "Selected for the Expo City Dubai Foundation Changemakers Academy, receiving up to AED 50,000 in grant funding, dedicated workspace, business licensing support, and mentorship to scale purpose-driven innovation."
         },
         {
             icon: Lightbulb,
-            title: "Incubated Startup",
+            title: "Community Built",
             subtitle: "Expo City Dubai Foundation",
             image: "/images/achievements/Expo City Incubation.png",
             description: "Incubated within Dubai's premier ecosystem for social innovation at Expo City, gaining access to an Urban Lab testbed, strategic partnerships, global visibility, and cross-sector networking with major industry players."
