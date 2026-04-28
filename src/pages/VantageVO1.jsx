@@ -71,15 +71,19 @@ const VantageVO1 = () => {
             {/* ── PART 2: Component Flywheel (continuous scroll, no gap) ────────── */}
             <CinematicV01Showcase />
 
-            {/* ── PART 3: Achievements Bar (same style as homepage) ─────────────── */}
-            <AchievementsBar />
-
             {/* ── PART 3: Static content ────────────────────────────────────────── */}
-            <section className="relative z-20 bg-vantage-black pt-32 pb-24 border-t border-white/[0.03]">
+            <section className="relative z-20 bg-vantage-black pt-32 pb-0 border-t border-white/[0.03]">
                 <div className="container mx-auto px-6">
                     <VO1Features />
+                </div>
+            </section>
 
-                    <div className="mt-32">
+            {/* ── Achievements Bar — below Vantage Intelligence ─────────────────── */}
+            <AchievementsBar />
+
+            <section className="relative z-20 bg-vantage-black pt-24 pb-24">
+                <div className="container mx-auto px-6">
+                    <div className="mt-0">
                         <VisionForEveryone />
                     </div>
                 </div>
