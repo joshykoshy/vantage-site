@@ -1,5 +1,7 @@
 import Hero from '../components/Hero';
 import ProblemStatement from '../components/ProblemStatement';
+import MainDashboard from '../components/MainDashboard';
+import WelcomeSection from '../components/WelcomeSection';
 import QuoteSection from '../components/QuoteSection';
 import Benefits from '../components/Benefits';
 import Partnerships from '../components/Partnerships';
@@ -14,6 +16,12 @@ const Home = () => {
 
             {/* Scrollytelling — problem statement narrative */}
             <ProblemStatement />
+
+            {/* Dashboard Stats */}
+            <MainDashboard />
+
+            {/* Welcome / CTA section */}
+            <WelcomeSection />
 
             {/* Normal flow — quote then rest of page */}
             <div className="relative z-20 bg-vantage-black">

@@ -7,7 +7,17 @@ const Hero = () => {
     return (
         <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
             {/* Background layers */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
+            <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+                {/* Logo watermark */}
+                <motion.img
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 0.05, scale: 1 }}
+                    transition={{ duration: 2, ease: "easeOut" }}
+                    src="/images/vantage-eye-logo.png"
+                    alt=""
+                    className="absolute max-w-[80vw] md:max-w-[60vw] max-h-[80vh] object-contain opacity-[0.05]"
+                />
+
                 {/* Subtle gradient overlays so text remains readable without hiding video */}
                 <div className="absolute inset-0 bg-gradient-to-b from-vantage-black/30 via-transparent to-transparent"></div>
                 <div className="absolute inset-0 bg-gradient-to-r from-vantage-black/30 via-transparent to-vantage-black/30"></div>

@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const LOCK_AT = 0.18;          // scroll progress that triggers the lock (end of Act 0)
-const ANIM_DURATION = 13000;   // ms for Acts 1–3 to auto-play
+const ANIM_DURATION = 10000;   // ms for Acts 1–3 to auto-play
 
 // ─── SVG: Animated White Cane ─────────────────────────────────────────────────
 const CaneIcon = ({ sweep }) => {
@@ -97,10 +97,9 @@ const PulseRings = ({ progress }) => (
   </svg>
 );
 
-// ─── Dot Nav ──────────────────────────────────────────────────────────────────
 const DotNav = ({ current }) => (
   <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50">
-    {[0, 1, 2, 3, 4].map(i => (
+    {[0, 1, 2, 3].map(i => (
       <div key={i} style={{
         width: 6, height: 6, borderRadius: '50%',
         background: current === i ? '#FF6B00' : 'rgba(255,255,255,0.2)',
@@ -185,7 +184,7 @@ const ProblemStatement = () => {
             if (containerRef.current) {
               const containerTop =
                 containerRef.current.getBoundingClientRect().top + window.scrollY;
-              window.scrollTo({ top: containerTop + 3.2 * window.innerHeight, behavior: 'instant' });
+              window.scrollTo({ top: containerTop + 2.8 * window.innerHeight, behavior: 'instant' });
             }
             phaseRef.current = 'post';
             setPhase('post');
@@ -226,18 +225,10 @@ const ProblemStatement = () => {
   const illTextOp = int3 > 0.50 ? Math.min(1, (int3 - 0.50) * 5.0) : 0;
   const illTextOut= int3 > 0.88 ? Math.min(1, (int3 - 0.88) * 9.0) : 0;
 
-  // Act 4 — quote (scroll-driven, phase === 'post')
-  const a4   = phase === 'post' ? Math.min(1, Math.max(0, (scrollProg - 0.80) / 0.19)) : 0;
-  const l1   = a4 > 0.05 ? Math.min(1, (a4 - 0.05) * 7) : 0;
-  const l2   = a4 > 0.22 ? Math.min(1, (a4 - 0.22) * 7) : 0;
-  const l3   = a4 > 0.42 ? Math.min(1, (a4 - 0.42) * 7) : 0;
-  const l4   = a4 > 0.58 ? Math.min(1, (a4 - 0.58) * 7) : 0;
-  const ctaOp= a4 > 0.76 ? Math.min(1, (a4 - 0.76) * 7) : 0;
-
   // Current act (drives dot nav)
   const currentAct =
     phase === 'pre'  ? 0 :
-    phase === 'post' ? 4 :
+    phase === 'post' ? 3 :
     internalT < 0.30 ? 1 :
     internalT < 0.64 ? 2 : 3;
 
@@ -251,7 +242,7 @@ const ProblemStatement = () => {
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div ref={containerRef} style={{ height: '500vh' }} className="relative">
+    <div ref={containerRef} style={{ height: '400vh' }} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#0A0A0A]">
 
         {/* Film grain texture */}
@@ -424,65 +415,6 @@ const ProblemStatement = () => {
             <p className="text-xl md:text-2xl font-light font-display" style={{ color: 'rgba(255,255,255,0.85)', letterSpacing: '0.04em' }}>
               We translate the unseen into intuition.
             </p>
-          </div>
-        </div>
-
-        {/* ═══════════════════════════════════════════
-            ACT 4 — THE WORD + CTA  (scroll-driven)
-        ═══════════════════════════════════════════ */}
-        <div style={{ ...panel(4), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {/* Ambient glow */}
-          <div style={{
-            position: 'absolute', top: '50%', left: '50%',
-            transform: 'translate(-50%,-50%)',
-            width: 520, height: 320, borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(255,107,0,0.06) 0%, transparent 70%)',
-            opacity: l4, pointerEvents: 'none',
-          }} />
-
-          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, padding: '0 32px' }}>
-            <p className="text-xl md:text-2xl font-light font-display"
-              style={{ opacity: l1, transform: `translateY(${(1-l1)*14}px)`, color: 'rgba(255,255,255,0.58)', letterSpacing: '0.03em', transition: 'transform 0.05s' }}>
-              The problem was right under our noses,
-            </p>
-            <p className="text-xl md:text-2xl font-light font-display"
-              style={{ opacity: l2, transform: `translateY(${(1-l2)*14}px)`, color: 'rgba(255,255,255,0.82)', letterSpacing: '0.03em', transition: 'transform 0.05s' }}>
-              so we built a solution above it.
-            </p>
-
-            {/* Orange divider */}
-            <div style={{
-              width: 88, height: 1, opacity: l3,
-              background: 'linear-gradient(90deg, transparent, rgba(255,107,0,0.55), transparent)',
-            }} />
-
-            <p className="text-3xl md:text-5xl font-bold font-display"
-              style={{ opacity: l3, transform: `translateY(${(1-l3)*10}px)`, color: '#fff', letterSpacing: '-0.02em', transition: 'transform 0.05s' }}>
-              Welcome to Vantage.
-            </p>
-            <p className="text-base md:text-lg font-light"
-              style={{ opacity: l4, transform: `translateY(${(1-l4)*8}px)`, color: '#FF8C38', letterSpacing: '0.3em', textTransform: 'uppercase', transition: 'transform 0.05s' }}>
-              Navigate with Instinct.
-            </p>
-
-            {/* CTA Button */}
-            <motion.button
-              onClick={() => navigate('/vantage-vo1')}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              style={{ opacity: ctaOp, marginTop: 10, cursor: 'pointer' }}
-              className="group flex items-center gap-3 px-8 py-4 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 backdrop-blur-sm">
-              <span className="text-sm font-medium text-white/75 group-hover:text-white transition-colors duration-300"
-                style={{ letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                Meet the Vantage V01
-              </span>
-              <div className="w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-300"
-                style={{ borderColor: 'rgba(255,107,0,0.4)' }}
-                onMouseEnter={e => e.currentTarget.style.borderColor='rgba(255,107,0,0.8)'}
-                onMouseLeave={e => e.currentTarget.style.borderColor='rgba(255,107,0,0.4)'}>
-                <ArrowRight size={13} color="#FF6B00" />
-              </div>
-            </motion.button>
           </div>
         </div>
 
