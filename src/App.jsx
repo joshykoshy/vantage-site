@@ -8,6 +8,7 @@ import VantageVO1 from './pages/VantageVO1';
 import Contact from './pages/Contact';
 import VantageLucid from './pages/VantageLucid';
 import PitchDeck from './pages/PitchDeck';
+import Impact from './pages/Impact';
 import { useEffect } from 'react';
 
 const ScrollToTop = () => {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/vantage-lucid" element={<VantageLucid />} />
           <Route path="/pitch-deck" element={<PitchDeck />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/impact" element={<Impact />} />
         </Routes>
         <Footer />
       </div>

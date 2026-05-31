@@ -20,6 +20,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'Outfit', 'sans-serif'],
         display: ['Outfit', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', 'Outfit', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       animation: {
