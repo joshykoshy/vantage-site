@@ -79,17 +79,27 @@ const ScrollSequenceBackground = ({ progress }) => {
         });
         
         const handleResize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            // Use visualViewport on mobile so canvas matches the actual visible area,
+            // not the full window that includes hidden browser chrome (URL bar, etc.)
+            const vp = window.visualViewport;
+            canvas.width = vp ? vp.width : window.innerWidth;
+            canvas.height = vp ? vp.height : window.innerHeight;
             render(progress.get());
         };
         
         window.addEventListener('resize', handleResize);
+        // Also listen to visualViewport changes (mobile browser chrome show/hide)
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleResize);
+        }
         handleResize();
 
         return () => {
             unsubscribe();
             window.removeEventListener('resize', handleResize);
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleResize);
+            }
             cancelAnimationFrame(animationFrameId);
         };
     }, [images, imagesLoaded, progress]);

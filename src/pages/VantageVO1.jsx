@@ -4,7 +4,7 @@ import ScrollSequenceBackground from '../components/ScrollSequenceBackground';
 import V01ComponentShowcase from '../components/V01ComponentShowcase';
 import VisionForEveryone from '../components/VisionForEveryone';
 import VO1Features from '../components/VO1Features';
-import CinematicV01Showcase from '../components/CinematicV01Showcase';
+// CinematicV01Showcase saved for later — import CinematicV01Showcase from '../components/CinematicV01Showcase';
 import AchievementsBar from '../components/AchievementsBar';
 
 const VantageVO1 = () => {
@@ -23,39 +23,41 @@ const VantageVO1 = () => {
             {/* The scroll animation plays while user scrolls through this 300vh block.
                 The VANTAGE VO1 title is pinned on top of the animation. */}
             <div ref={scrollRef} className="relative h-[300vh] bg-[#050505]">
-                {/* Sticky viewport */}
-                <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
+                {/* Sticky viewport — use 100svh so it fills the actual visible area on mobile (excluding browser chrome) */}
+                <div className="sticky top-0 left-0 w-full overflow-hidden" style={{ height: '100svh' }}>
 
                     {/* Frame sequence background */}
                     <div className="absolute inset-0 z-0">
                         <ScrollSequenceBackground progress={scrollYProgress} />
                     </div>
 
-                    {/* Pinned title overlay */}
-                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none">
+                    {/* Pinned title overlay — centred both axes, full width */}
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none px-5">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            className="text-center px-6"
+                            className="text-center w-full max-w-3xl mx-auto"
                         >
-                            <span className="text-xs md:text-sm font-mono text-vantage-electric/70 tracking-[0.3em] uppercase mb-6 block">
+                            <span className="text-[10px] sm:text-xs md:text-sm font-mono text-vantage-electric/70 tracking-[0.3em] uppercase mb-4 block">
                                 The Ultimate Edge
                             </span>
-                            <h2 className="text-5xl md:text-7xl lg:text-[6rem] font-bold text-white mb-6 font-display tracking-tighter uppercase leading-none">
+                            {/* Responsive title: small phones get text-4xl, larger devices scale up */}
+                            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white mb-4 md:mb-6 font-display tracking-tighter uppercase leading-none">
                                 Vantage VO1
                             </h2>
-                            <p className="text-[#999999] max-w-2xl mx-auto text-lg md:text-xl font-light tracking-wide">
+                            <p className="text-[#999999] w-full max-w-xs sm:max-w-sm md:max-w-2xl mx-auto text-sm sm:text-base md:text-xl font-light tracking-wide leading-relaxed">
                                 Split-Pack Architecture: Separating sensing from compute for weightless autonomy.
                             </p>
                         </motion.div>
 
-                        {/* Scroll cue */}
+                        {/* Scroll cue — pinned to bottom with safe-area inset for home bar on iOS */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 1.5, delay: 1.0 }}
-                            className="absolute bottom-12 flex flex-col items-center gap-3"
+                            className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+                            style={{ bottom: 'max(2.5rem, env(safe-area-inset-bottom, 2.5rem))' }}
                         >
                             <span className="text-[10px] text-vantage-grey/50 tracking-[0.25em] uppercase font-mono">Scroll</span>
                             <motion.div
@@ -68,8 +70,7 @@ const VantageVO1 = () => {
                 </div>
             </div>
 
-            {/* ── PART 2: Component Flywheel (continuous scroll, no gap) ────────── */}
-            <CinematicV01Showcase />
+            {/* CinematicV01Showcase removed — saved in CinematicV01Showcase.jsx for later */}
 
             {/* ── PART 3: Static content ────────────────────────────────────────── */}
             <section className="relative z-20 bg-vantage-black pt-32 pb-0 border-t border-white/[0.03]">
