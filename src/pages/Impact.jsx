@@ -12,6 +12,7 @@ import {
 
 import FlipboardText from '../components/ui/FlipboardText';
 import InteractiveCardStack from '../components/ui/InteractiveCardStack';
+import AchievementsWheel from '../components/ui/AchievementsWheel';
 import CardSwap, { Card } from '../components/ui/CardSwap';
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -39,7 +40,6 @@ const FadeUp = ({ children, delay = 0, className = '' }) => {
 const HeroSection = () => {
     const [lampActive, setLampActive] = useState(false);
 
-    // Lamp fires the first time the user scrolls — feels cinematic
     useEffect(() => {
         const onScroll = () => {
             if (window.scrollY > 20) {
@@ -56,62 +56,94 @@ const HeroSection = () => {
             data-section="hero"
             className="relative w-full min-h-screen bg-vantage-black flex flex-col items-center justify-center overflow-hidden"
         >
-            {/* ── Lamp beams — fire on first scroll ──────────────────── */}
-            <div className="absolute inset-0 flex items-start justify-center pointer-events-none">
-                <div className="relative w-full flex justify-center" style={{ marginTop: '-2rem' }}>
-                    {/* Left beam */}
-                    <motion.div
-                        initial={{ opacity: 0, width: '4rem' }}
-                        animate={lampActive ? { opacity: 1, width: '28rem' } : {}}
-                        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute h-[60vh] origin-top"
-                        style={{
-                            right: '50%',
-                            top: 0,
-                            background: 'conic-gradient(from 70deg at 100% 0%, #00D4FF22 0deg, transparent 40deg)',
-                        }}
-                    />
-                    {/* Right beam */}
-                    <motion.div
-                        initial={{ opacity: 0, width: '4rem' }}
-                        animate={lampActive ? { opacity: 1, width: '28rem' } : {}}
-                        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute h-[60vh] origin-top"
-                        style={{
-                            left: '50%',
-                            top: 0,
-                            background: 'conic-gradient(from 290deg at 0% 0%, transparent 40deg, #00D4FF22 80deg)',
-                        }}
-                    />
+            {/* ── Clean theater spotlight from top-centre ────────────── */}
+            <div className="absolute inset-0 pointer-events-none" aria-hidden>
 
-                    {/* Horizontal glowing line at apex */}
-                    <motion.div
-                        initial={{ opacity: 0, scaleX: 0 }}
-                        animate={lampActive ? { opacity: 1, scaleX: 1 } : {}}
-                        transition={{ duration: 0.7, ease: 'easeOut' }}
-                        className="absolute top-0 left-1/2 -translate-x-1/2 h-px bg-vantage-electric/60"
-                        style={{ width: '32rem' }}
-                    />
+                {/* Main cone: wide radial glow emanating downward from top-centre */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={lampActive ? { opacity: 1 } : {}}
+                    transition={{ duration: 1.2, ease: 'easeOut' }}
+                    className="absolute inset-0"
+                    style={{
+                        background:
+                            'radial-gradient(ellipse 70% 65% at 50% -10%, rgba(0,212,255,0.22) 0%, rgba(0,212,255,0.07) 50%, transparent 75%)',
+                    }}
+                />
 
-                    {/* Glow orb at top centre */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.3 }}
-                        animate={lampActive ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2
-                                   w-64 h-24 bg-vantage-electric/20 blur-[60px] rounded-full"
-                    />
-                </div>
+                {/* Left beam edge — thin diagonal ray */}
+                <motion.div
+                    initial={{ opacity: 0, scaleY: 0 }}
+                    animate={lampActive ? { opacity: 1, scaleY: 1 } : {}}
+                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                    className="absolute top-0 left-1/2"
+                    style={{
+                        width: '1px',
+                        height: '72vh',
+                        transformOrigin: 'top center',
+                        transform: 'rotate(-32deg)',
+                        background: 'linear-gradient(to bottom, rgba(0,212,255,0.5), transparent)',
+                    }}
+                />
+
+                {/* Right beam edge — thin diagonal ray */}
+                <motion.div
+                    initial={{ opacity: 0, scaleY: 0 }}
+                    animate={lampActive ? { opacity: 1, scaleY: 1 } : {}}
+                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                    className="absolute top-0 left-1/2"
+                    style={{
+                        width: '1px',
+                        height: '72vh',
+                        transformOrigin: 'top center',
+                        transform: 'rotate(32deg)',
+                        background: 'linear-gradient(to bottom, rgba(0,212,255,0.5), transparent)',
+                    }}
+                />
+
+                {/* Bright horizontal line at the lamp source */}
+                <motion.div
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={lampActive ? { opacity: 1, scaleX: 1 } : {}}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                    className="absolute top-0 left-1/2 -translate-x-1/2 h-px"
+                    style={{
+                        width: '28rem',
+                        background: 'linear-gradient(to right, transparent, rgba(0,212,255,0.8), transparent)',
+                    }}
+                />
+
+                {/* Hot-spot orb directly at top centre */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={lampActive ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    style={{
+                        width: '200px',
+                        height: '80px',
+                        background: 'rgba(0,212,255,0.35)',
+                        borderRadius: '50%',
+                        filter: 'blur(30px)',
+                    }}
+                />
+
+                {/* Soft ambient fill — lights up the content area */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={lampActive ? { opacity: 1 } : {}}
+                    transition={{ duration: 1.8, delay: 0.4 }}
+                    className="absolute left-1/2 -translate-x-1/2"
+                    style={{
+                        top: '15%',
+                        width: '600px',
+                        height: '350px',
+                        background: 'rgba(0,212,255,0.04)',
+                        borderRadius: '50%',
+                        filter: 'blur(80px)',
+                    }}
+                />
             </div>
-
-            {/* ── Large ambient glow in centre of page ───────────────── */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={lampActive ? { opacity: 1 } : {}}
-                transition={{ duration: 1.5, delay: 0.3 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%]
-                           w-[500px] h-[300px] bg-vantage-electric/[0.06] blur-[100px] rounded-full pointer-events-none"
-            />
 
             {/* ── Content — always visible, just lit by the lamp ─────── */}
             <div className="relative z-10 flex flex-col items-center text-center px-6 pt-28 pb-20">
@@ -440,7 +472,7 @@ const CardSwapSection = () => {
                                 height={400}
                                 cardDistance={50}
                                 verticalDistance={55}
-                                delay={4500}
+                                delay={2000}
                                 pauseOnHover={true}
                                 skewAmount={5}
                                 easing="elastic"
@@ -687,6 +719,7 @@ const Impact = () => (
         <GallerySection />
         <CardSwapSection />
         <UAEVisionSection />
+        <AchievementsWheel />
         <ClosingCTA />
     </div>
 );
