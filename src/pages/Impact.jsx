@@ -1,5 +1,5 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import {
     ChevronDown,
     GraduationCap,
@@ -35,133 +35,142 @@ const FadeUp = ({ children, delay = 0, className = '' }) => {
 };
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Section 1 — Hero with scroll-activated lamp spotlight
+   Section 1 — Hero: scroll-pinned, lamp driven by scrollYProgress
+   The section is 250vh tall so the content stays in view while the user
+   scrolls and the lamp animates on. After 250vh they proceed normally.
 ───────────────────────────────────────────────────────────────────────────── */
 const HeroSection = () => {
-    const [lampActive, setLampActive] = useState(false);
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ['start start', 'end end'],
+    });
 
-    useEffect(() => {
-        const onScroll = () => {
-            if (window.scrollY > 20) {
-                setLampActive(true);
-                window.removeEventListener('scroll', onScroll);
-            }
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+    // Lamp cone fades in between 10%–45% scroll progress
+    const coneOpacity   = useTransform(scrollYProgress, [0.08, 0.4],  [0, 1]);
+    // Beam lines scale up from top between 15%–50%
+    const beamScaleY    = useTransform(scrollYProgress, [0.14, 0.48], [0, 1]);
+    const beamOpacity   = useTransform(scrollYProgress, [0.1,  0.4],  [0, 1]);
+    // Hot-spot orb pops in between 12%–38%
+    const hotScale      = useTransform(scrollYProgress, [0.1,  0.35], [0, 1]);
+    const hotOpacity    = useTransform(scrollYProgress, [0.08, 0.35], [0, 1]);
+    // Ambient fill builds slowly
+    const ambientOp     = useTransform(scrollYProgress, [0.3,  0.65], [0, 1]);
 
     return (
+        // 250vh container — content pins at top while lamp plays
         <section
+            ref={containerRef}
             data-section="hero"
-            className="relative w-full min-h-screen bg-vantage-black flex flex-col items-center justify-center overflow-hidden"
+            className="relative h-[250vh] bg-vantage-black"
         >
-            {/* ── Clean theater spotlight from top-centre ────────────── */}
+            <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+            {/* ── Scroll-driven theater spotlight from top-centre ─────── */}
             <div className="absolute inset-0 pointer-events-none" aria-hidden>
 
-                {/* Main cone: wide radial glow emanating downward from top-centre */}
+                {/* Main cone — driven by scrollYProgress */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={lampActive ? { opacity: 1 } : {}}
-                    transition={{ duration: 1.2, ease: 'easeOut' }}
-                    className="absolute inset-0"
                     style={{
+                        opacity: coneOpacity,
                         background:
-                            'radial-gradient(ellipse 70% 65% at 50% -10%, rgba(0,212,255,0.22) 0%, rgba(0,212,255,0.07) 50%, transparent 75%)',
+                            'radial-gradient(ellipse 70% 65% at 50% -10%, rgba(0,212,255,0.24) 0%, rgba(0,212,255,0.08) 50%, transparent 76%)',
+                        position: 'absolute',
+                        inset: 0,
                     }}
                 />
 
-                {/* Left beam edge — thin diagonal ray */}
+                {/* Left beam edge */}
                 <motion.div
-                    initial={{ opacity: 0, scaleY: 0 }}
-                    animate={lampActive ? { opacity: 1, scaleY: 1 } : {}}
-                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                    className="absolute top-0 left-1/2"
                     style={{
+                        opacity: beamOpacity,
+                        scaleY: beamScaleY,
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
                         width: '1px',
-                        height: '72vh',
+                        height: '75vh',
                         transformOrigin: 'top center',
-                        transform: 'rotate(-32deg)',
-                        background: 'linear-gradient(to bottom, rgba(0,212,255,0.5), transparent)',
+                        transform: 'rotate(-30deg)',
+                        background: 'linear-gradient(to bottom, rgba(0,212,255,0.6), transparent)',
                     }}
                 />
-
-                {/* Right beam edge — thin diagonal ray */}
+                {/* Right beam edge */}
                 <motion.div
-                    initial={{ opacity: 0, scaleY: 0 }}
-                    animate={lampActive ? { opacity: 1, scaleY: 1 } : {}}
-                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                    className="absolute top-0 left-1/2"
                     style={{
+                        opacity: beamOpacity,
+                        scaleY: beamScaleY,
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
                         width: '1px',
-                        height: '72vh',
+                        height: '75vh',
                         transformOrigin: 'top center',
-                        transform: 'rotate(32deg)',
-                        background: 'linear-gradient(to bottom, rgba(0,212,255,0.5), transparent)',
+                        transform: 'rotate(30deg)',
+                        background: 'linear-gradient(to bottom, rgba(0,212,255,0.6), transparent)',
                     }}
                 />
 
-                {/* Bright horizontal line at the lamp source */}
+                {/* Horizontal bar at lamp apex */}
                 <motion.div
-                    initial={{ opacity: 0, scaleX: 0 }}
-                    animate={lampActive ? { opacity: 1, scaleX: 1 } : {}}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                    className="absolute top-0 left-1/2 -translate-x-1/2 h-px"
                     style={{
+                        opacity: hotOpacity,
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        height: '1px',
                         width: '28rem',
-                        background: 'linear-gradient(to right, transparent, rgba(0,212,255,0.8), transparent)',
+                        background: 'linear-gradient(to right, transparent, rgba(0,212,255,0.9), transparent)',
                     }}
                 />
-
-                {/* Hot-spot orb directly at top centre */}
+                {/* Hot-spot orb at apex */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={lampActive ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     style={{
-                        width: '200px',
-                        height: '80px',
-                        background: 'rgba(0,212,255,0.35)',
+                        opacity: hotOpacity,
+                        scale: hotScale,
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
+                        transform: 'translateX(-50%) translateY(-50%)',
+                        width: '220px',
+                        height: '90px',
+                        background: 'rgba(0,212,255,0.4)',
                         borderRadius: '50%',
-                        filter: 'blur(30px)',
+                        filter: 'blur(28px)',
                     }}
                 />
-
-                {/* Soft ambient fill — lights up the content area */}
+                {/* Soft ambient fill */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={lampActive ? { opacity: 1 } : {}}
-                    transition={{ duration: 1.8, delay: 0.4 }}
-                    className="absolute left-1/2 -translate-x-1/2"
                     style={{
-                        top: '15%',
-                        width: '600px',
-                        height: '350px',
-                        background: 'rgba(0,212,255,0.04)',
+                        opacity: ambientOp,
+                        position: 'absolute',
+                        top: '12%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: '620px',
+                        height: '360px',
+                        background: 'rgba(0,212,255,0.045)',
                         borderRadius: '50%',
-                        filter: 'blur(80px)',
+                        filter: 'blur(90px)',
                     }}
                 />
             </div>
 
-            {/* ── Content — always visible, just lit by the lamp ─────── */}
+            {/* ── Content — always visible, lamp illuminates it on scroll ── */}
             <div className="relative z-10 flex flex-col items-center text-center px-6 pt-28 pb-20">
-                {/* Eyebrow */}
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
+                    transition={{ delay: 0.15, duration: 0.6 }}
                     className="text-vantage-electric text-xs md:text-sm font-mono tracking-[0.3em] uppercase mb-6"
                 >
                     Real People. Real Change.
                 </motion.p>
 
-                {/* Main heading */}
                 <motion.h1
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="text-white text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem]
                                font-bold tracking-tighter leading-[1.05] max-w-4xl font-display"
                 >
@@ -169,11 +178,10 @@ const HeroSection = () => {
                     <span className="text-metallic">to just — walk?</span>
                 </motion.h1>
 
-                {/* Subtext */}
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.55, duration: 0.7 }}
+                    transition={{ delay: 0.5, duration: 0.7 }}
                     className="mt-6 text-vantage-grey text-base md:text-xl max-w-2xl leading-relaxed"
                 >
                     For 250 million people with severe visual impairment,
@@ -181,11 +189,10 @@ const HeroSection = () => {
                     Vantage is changing that.
                 </motion.p>
 
-                {/* Stats row */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.75, duration: 0.6 }}
+                    transition={{ delay: 0.7, duration: 0.6 }}
                     className="mt-12 flex flex-wrap gap-y-8 gap-x-0 items-center justify-center"
                 >
                     {[
@@ -209,15 +216,15 @@ const HeroSection = () => {
                     ))}
                 </motion.div>
 
-                {/* Scroll cue */}
+                {/* Scroll hint */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 1.4, duration: 0.8 }}
+                    transition={{ delay: 1.2, duration: 0.8 }}
                     className="mt-16 flex flex-col items-center gap-2"
                 >
                     <span className="text-vantage-grey/40 text-[10px] tracking-[0.25em] uppercase font-mono">
-                        Scroll
+                        Scroll to ignite
                     </span>
                     <motion.div
                         animate={{ y: [0, 8, 0] }}
@@ -227,6 +234,7 @@ const HeroSection = () => {
                     </motion.div>
                 </motion.div>
             </div>
+            </div>{/* end sticky */}
         </section>
     );
 };
@@ -252,17 +260,30 @@ const PartnershipSection = () => {
         >
             <div className="max-w-4xl mx-auto text-center">
                 {/* Label */}
-                <motion.p
+                {/* Al Noor Logo badge */}
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
-                    className="text-vantage-electric text-xs font-mono tracking-[0.3em] uppercase mb-6"
+                    className="flex items-center gap-4 justify-center mb-8"
                 >
-                    Our First Partnership
-                </motion.p>
+                    <div className="w-14 h-14 rounded-2xl overflow-hidden border border-white/10 bg-white/5 flex-shrink-0">
+                        <img
+                            src="/images/al-noor/al-noor-logo.jpg"
+                            alt="Al Noor CRID"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div className="text-left">
+                        <p className="text-vantage-electric text-xs font-mono tracking-[0.3em] uppercase">
+                            Our First Partnership
+                        </p>
+                        <p className="text-white/50 text-xs mt-0.5">Al Noor CRID × Vantage</p>
+                    </div>
+                </motion.div>
 
                 {/* Flipboard headline */}
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight font-display">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8 leading-tight font-display whitespace-nowrap">
                     <FlipboardText
                         text="Co-Creating With Al Noor CRID"
                         scrambleDuration={500}
@@ -314,6 +335,7 @@ const GallerySection = () => {
         '/images/al-noor/al-noor-01.jpg',
         '/images/al-noor/al-noor-02.jpg',
         '/images/al-noor/al-noor-03.jpg',
+        '/images/al-noor/al-noor-04.jpg',
     ];
 
     const cards = alNoorImages.map((src, i) => (
