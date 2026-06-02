@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Manifesto from './pages/Manifesto';
-import VantageVO1 from './pages/VantageVO1';
+import VantageVisionHalo from './pages/VantageVisionHalo';
 import Contact from './pages/Contact';
 import VantageLucid from './pages/VantageLucid';
 import PitchDeck from './pages/PitchDeck';
@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/manifesto" element={<Manifesto />} />
-          <Route path="/vantage-vo1" element={<VantageVO1 />} />
+          <Route path="/vantage-vision-halo" element={<VantageVisionHalo />} />
           <Route path="/vantage-lucid" element={<VantageLucid />} />
           <Route path="/pitch-deck" element={<PitchDeck />} />
           <Route path="/contact" element={<Contact />} />

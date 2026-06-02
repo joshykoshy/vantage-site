@@ -94,7 +94,7 @@ const ComponentLayer = ({ comp, index, total, scrollYProgress }) => {
     );
 };
 
-const V01ComponentShowcase = () => {
+const VisionHaloComponentShowcase = () => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -149,4 +149,4 @@ const V01ComponentShowcase = () => {
     );
 };
 
-export default V01ComponentShowcase;
+export default VisionHaloComponentShowcase;

@@ -40,7 +40,7 @@ const COMPONENTS = [
     }
 ];
 
-const CinematicV01Showcase = () => {
+const CinematicVisionHaloShowcase = () => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -125,4 +125,4 @@ const CinematicV01Showcase = () => {
     );
 };
 
-export default CinematicV01Showcase;
+export default CinematicVisionHaloShowcase;

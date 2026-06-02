@@ -716,7 +716,7 @@ const ClosingCTA = () => (
                         Partner With Us
                     </motion.a>
                     <motion.a
-                        href="/vantage-vo1"
+                        href="/vantage-vision-halo"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.97 }}
                         className="border border-white/[0.12] hover:border-white/30 text-white

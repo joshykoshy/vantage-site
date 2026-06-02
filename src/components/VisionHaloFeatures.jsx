@@ -163,7 +163,7 @@ const MobileFeatureCard = ({ title, subtitle, desc, image, video, idx }) => {
                 <span className={`text-xs font-mono tracking-wider transition-colors duration-300 ${isActive ? 'text-vantage-electric font-semibold' : 'text-vantage-grey/40'}`}>
                     {subtitle}
                 </span>
-                <span className="text-[10px] font-mono text-vantage-grey/30 uppercase tracking-[0.2em]">Vantage V01</span>
+                <span className="text-[10px] font-mono text-vantage-grey/30 uppercase tracking-[0.2em]">Vantage Vision Halo</span>
             </div>
 
             <div className="flex flex-col gap-3 relative z-10">
@@ -193,7 +193,7 @@ const MobileFeatureCard = ({ title, subtitle, desc, image, video, idx }) => {
     );
 };
 
-const VO1Features = () => {
+const VisionHaloFeatures = () => {
     const features = [
         {
             title: "Spatial Obstacle Detection",
@@ -274,4 +274,4 @@ const VO1Features = () => {
     );
 };
 
-export default VO1Features;
+export default VisionHaloFeatures;

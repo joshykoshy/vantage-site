@@ -58,15 +58,15 @@ const ScrollSequenceBackground = ({ progress }) => {
                 let drawWidth, drawHeight, offsetX, offsetY;
                 
                 if (canvasAspect > imageAspect) {
-                    drawWidth = canvas.width;
-                    drawHeight = canvas.width / imageAspect;
-                    offsetX = 0;
-                    offsetY = (canvas.height - drawHeight) / 2;
-                } else {
                     drawHeight = canvas.height;
                     drawWidth = canvas.height * imageAspect;
                     offsetY = 0;
                     offsetX = (canvas.width - drawWidth) / 2;
+                } else {
+                    drawWidth = canvas.width;
+                    drawHeight = canvas.width / imageAspect;
+                    offsetX = 0;
+                    offsetY = (canvas.height - drawHeight) / 2;
                 }
                 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);

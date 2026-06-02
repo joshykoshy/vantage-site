@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { useScroll, motion } from 'framer-motion';
 import ScrollSequenceBackground from '../components/ScrollSequenceBackground';
-import V01ComponentShowcase from '../components/V01ComponentShowcase';
+import VisionHaloComponentShowcase from '../components/VisionHaloComponentShowcase';
 import VisionForEveryone from '../components/VisionForEveryone';
-import VO1Features from '../components/VO1Features';
-// CinematicV01Showcase saved for later — import CinematicV01Showcase from '../components/CinematicV01Showcase';
+import VisionHaloFeatures from '../components/VisionHaloFeatures';
+// CinematicVisionHaloShowcase saved for later — import CinematicVisionHaloShowcase from '../components/CinematicVisionHaloShowcase';
 import AchievementsBar from '../components/AchievementsBar';
 
-const VantageVO1 = () => {
+const VantageVisionHalo = () => {
     const scrollRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: scrollRef,
@@ -21,7 +21,7 @@ const VantageVO1 = () => {
 
             {/* ── PART 1: Scroll Animation (300vh) ─────────────────────────────── */}
             {/* The scroll animation plays while user scrolls through this 300vh block.
-                The VANTAGE VO1 title is pinned on top of the animation. */}
+                The VANTAGE VISION HALO title is pinned on top of the animation. */}
             <div ref={scrollRef} className="relative h-[300vh] bg-[#050505]">
                 {/* Sticky viewport — use 100svh so it fills the actual visible area on mobile (excluding browser chrome) */}
                 <div className="sticky top-0 left-0 w-full overflow-hidden" style={{ height: '100svh' }}>
@@ -44,7 +44,7 @@ const VantageVO1 = () => {
                             </span>
                             {/* Responsive title: small phones get text-4xl, larger devices scale up */}
                             <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white mb-4 md:mb-6 font-display tracking-tighter uppercase leading-none">
-                                Vantage VO1
+                                Vantage Vision Halo
                             </h2>
                             <p className="text-[#999999] w-full max-w-xs sm:max-w-sm md:max-w-2xl mx-auto text-sm sm:text-base md:text-xl font-light tracking-wide leading-relaxed">
                                 Split-Pack Architecture: Separating sensing from compute for weightless autonomy.
@@ -70,12 +70,12 @@ const VantageVO1 = () => {
                 </div>
             </div>
 
-            {/* CinematicV01Showcase removed — saved in CinematicV01Showcase.jsx for later */}
+            {/* CinematicVisionHaloShowcase removed — saved in CinematicVisionHaloShowcase.jsx for later */}
 
             {/* ── PART 3: Static content ────────────────────────────────────────── */}
             <section className="relative z-20 bg-vantage-black pt-32 pb-0 border-t border-white/[0.03]">
                 <div className="container mx-auto px-6">
-                    <VO1Features />
+                    <VisionHaloFeatures />
                 </div>
             </section>
 
@@ -93,4 +93,4 @@ const VantageVO1 = () => {
     );
 };
 
-export default VantageVO1;
+export default VantageVisionHalo;

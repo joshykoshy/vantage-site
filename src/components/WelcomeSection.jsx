@@ -64,11 +64,11 @@ const WelcomeSection = () => {
                     className="mt-8"
                 >
                     <button
-                        onClick={() => navigate('/vantage-vo1')}
+                        onClick={() => navigate('/vantage-vision-halo')}
                         className="group flex items-center gap-4 px-8 py-4 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 backdrop-blur-sm"
                     >
                         <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-300 tracking-[0.15em] uppercase">
-                            Meet the Vantage V01
+                            Meet the Vantage Vision Halo
                         </span>
                         <div className="w-8 h-8 rounded-full border border-vantage-electric/40 group-hover:border-vantage-electric/80 flex items-center justify-center transition-all duration-300">
                             <ArrowRight size={14} className="text-vantage-electric" />

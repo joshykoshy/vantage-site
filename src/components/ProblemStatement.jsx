@@ -7,30 +7,46 @@ import { ArrowRight } from 'lucide-react';
 const LOCK_AT = 0.18;          // scroll progress that triggers the lock (end of Act 0)
 const ANIM_DURATION = 10000;   // ms for Acts 1–3 to auto-play
 
-// ─── SVG: Animated White Cane ─────────────────────────────────────────────────
-const CaneIcon = ({ sweep }) => {
-  const angle = (sweep - 0.5) * 70; // −35° to +35°
-  const atEdge = sweep < 0.08 || sweep > 0.92;
+// ─── SVG: Animated 2D Lineout Person with White Cane ────────────────────────────
+const PersonWithCaneIcon = () => {
   return (
-    <svg width="160" height="220" viewBox="0 0 160 220" fill="none">
-      {/* Grip cap */}
-      <ellipse cx="80" cy="18" rx="9" ry="14" fill="#2a2a2a" stroke="#555" strokeWidth="1.5" />
-      {/* Shaft + tip group — rotates from grip base */}
-      <g style={{ transformOrigin: '80px 32px', transform: `rotate(${angle}deg)` }}>
-        <rect x="77" y="32" width="6" height="148" rx="3" fill="white" opacity="0.95" />
-        {/* Red tip band */}
-        <rect x="77" y="160" width="6" height="12" rx="2" fill="#ef4444" />
-        {/* Ball tip */}
-        <ellipse cx="80" cy="178" rx="4" ry="4" fill="white" opacity="0.85" />
-        {/* Tap-contact ripple */}
-        {atEdge && (
-          <>
-            <circle cx="80" cy="180" r="9"  stroke="white" strokeWidth="1"   opacity="0.25" />
-            <circle cx="80" cy="180" r="16" stroke="white" strokeWidth="0.5" opacity="0.10" />
-          </>
-        )}
-      </g>
-    </svg>
+    <>
+      <style>{`
+        @keyframes sweepAnimation {
+          0% { transform: rotate(-35deg); }
+          100% { transform: rotate(35deg); }
+        }
+      `}</style>
+      <svg width="240" height="320" viewBox="0 0 240 320" fill="none">
+        {/* 2D Lineout Person Body */}
+        <g stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.35">
+          {/* Head */}
+          <circle cx="90" cy="50" r="16" />
+          {/* Torso */}
+          <line x1="90" y1="66" x2="90" y2="160" />
+          {/* Left Leg (back) */}
+          <line x1="90" y1="160" x2="60" y2="280" />
+          {/* Right Leg (front) */}
+          <line x1="90" y1="160" x2="110" y2="280" />
+          {/* Left Arm (swinging back) */}
+          <line x1="90" y1="80" x2="60" y2="140" />
+          {/* Right Arm (holding cane) */}
+          <line x1="90" y1="80" x2="130" y2="120" />
+        </g>
+        
+        {/* Cane shaft + tip group — rotates from hand */}
+        <g style={{ transformOrigin: '130px 120px', animation: 'sweepAnimation 1.5s infinite alternate ease-in-out' }}>
+          {/* Grip cap */}
+          <ellipse cx="130" cy="110" rx="9" ry="14" fill="#2a2a2a" stroke="#555" strokeWidth="1.5" />
+          {/* Shaft */}
+          <rect x="127" y="120" width="6" height="150" rx="3" fill="white" opacity="0.95" />
+          {/* Red tip band */}
+          <rect x="127" y="258" width="6" height="12" rx="2" fill="#ef4444" />
+          {/* Ball tip */}
+          <ellipse cx="130" cy="276" rx="4" ry="4" fill="white" opacity="0.85" />
+        </g>
+      </svg>
+    </>
   );
 };
 
@@ -117,10 +133,7 @@ const ProblemStatement = () => {
   const navigate = useNavigate();
   const phaseRef = useRef('pre');       // 'pre' | 'locked' | 'post'
   const animRafRef = useRef(null);
-  const sweepRafRef = useRef(null);
-  const sweepValRef = useRef(0.5);
-  const sweepDirRef = useRef(1);
-
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -129,20 +142,8 @@ const ProblemStatement = () => {
   const [phase, setPhase] = useState('pre');
   const [internalT, setInternalT] = useState(0);
   const [scrollProg, setScrollProg] = useState(0);
-  const [sweepT, setSweepT] = useState(0.5);
 
-  // ── Continuous cane sweep ──────────────────────────────────────────────────
-  useEffect(() => {
-    const animate = () => {
-      sweepValRef.current += 0.007 * sweepDirRef.current;
-      if (sweepValRef.current >= 1) { sweepValRef.current = 1; sweepDirRef.current = -1; }
-      if (sweepValRef.current <= 0) { sweepValRef.current = 0; sweepDirRef.current = 1; }
-      setSweepT(sweepValRef.current);
-      sweepRafRef.current = requestAnimationFrame(animate);
-    };
-    sweepRafRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(sweepRafRef.current);
-  }, []);
+  // The continuous cane sweep is now handled via CSS animations in PersonWithCaneIcon
 
   // ── Scroll lock when phase === 'locked' ────────────────────────────────────
   useEffect(() => {
@@ -291,7 +292,7 @@ const ProblemStatement = () => {
           }} />
           {/* Cane */}
           <div style={{ position: 'absolute', bottom: 120, left: '50%', transform: 'translateX(-50%)' }}>
-            <CaneIcon sweep={sweepT} />
+            <PersonWithCaneIcon />
           </div>
           {/* Barrier (fades in during Act 1) */}
           <div style={{

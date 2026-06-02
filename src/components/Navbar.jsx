@@ -28,7 +28,7 @@ const Navbar = () => {
     };
 
     const navLinks = [
-        { name: 'Vantage VO1', path: '/vantage-vo1' },
+        { name: 'Vantage Vision Halo', path: '/vantage-vision-halo' },
         { name: 'Vantage Lucid', path: '/vantage-lucid' },
         { name: 'Manifesto', path: '/manifesto' },
         { name: 'Pitch Deck', path: '/pitch-deck' },
