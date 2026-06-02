@@ -131,78 +131,27 @@ const DotNav = ({ current }) => (
 const ProblemStatement = () => {
   const containerRef = useRef(null);
   const navigate = useNavigate();
-  const phaseRef = useRef('pre');       // 'pre' | 'locked' | 'post'
-  const animRafRef = useRef(null);
-  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  const [phase, setPhase] = useState('pre');
-  const [internalT, setInternalT] = useState(0);
   const [scrollProg, setScrollProg] = useState(0);
 
-  // The continuous cane sweep is now handled via CSS animations in PersonWithCaneIcon
-
-  // ── Scroll lock when phase === 'locked' ────────────────────────────────────
   useEffect(() => {
-    if (phase !== 'locked') return;
-    const blockWheel = (e) => e.preventDefault();
-    const blockKey = (e) => {
-      if ([' ', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp'].includes(e.key)) {
-        e.preventDefault();
-      }
-    };
-    document.addEventListener('wheel',     blockWheel, { passive: false });
-    document.addEventListener('touchmove', blockWheel, { passive: false });
-    document.addEventListener('keydown',   blockKey);
-    return () => {
-      document.removeEventListener('wheel',     blockWheel);
-      document.removeEventListener('touchmove', blockWheel);
-      document.removeEventListener('keydown',   blockKey);
-    };
-  }, [phase]);
-
-  // ── Scroll progress watcher + phase trigger ────────────────────────────────
-  useEffect(() => {
-    return scrollYProgress.on('change', (v) => {
-      setScrollProg(v);
-
-      // Transition pre → locked when Act 0 finishes
-      if (phaseRef.current === 'pre' && v >= LOCK_AT) {
-        phaseRef.current = 'locked';
-        setPhase('locked');
-
-        const startTime = performance.now();
-        const tick = (now) => {
-          const t = Math.min(1, (now - startTime) / ANIM_DURATION);
-          setInternalT(t);
-          if (t < 1) {
-            animRafRef.current = requestAnimationFrame(tick);
-          } else {
-            // Jump scroll to the 80% position of this section
-            if (containerRef.current) {
-              const containerTop =
-                containerRef.current.getBoundingClientRect().top + window.scrollY;
-              window.scrollTo({ top: containerTop + 2.8 * window.innerHeight, behavior: 'instant' });
-            }
-            phaseRef.current = 'post';
-            setPhase('post');
-          }
-        };
-        animRafRef.current = requestAnimationFrame(tick);
-      }
-    });
+    return scrollYProgress.on('change', (v) => setScrollProg(v));
   }, [scrollYProgress]);
 
-  // Cleanup RAF on unmount
-  useEffect(() => () => { if (animRafRef.current) cancelAnimationFrame(animRafRef.current); }, []);
+  // Derive internalT directly from scroll progress
+  const rawT = scrollProg <= LOCK_AT ? 0 : (scrollProg - LOCK_AT) / (1 - LOCK_AT);
+  const internalT = Math.min(1, Math.max(0, rawT));
+
+  // No scroll-locking or auto-play needed, fully responsive to user's scroll speed
 
   // ── Derive display values ──────────────────────────────────────────────────
 
   // Act 0 — hook text (scroll-driven)
-  const a0 = phase === 'pre' ? Math.min(1, scrollProg / LOCK_AT) : 1;
+  const a0 = scrollProg < LOCK_AT ? Math.min(1, scrollProg / LOCK_AT) : 1;
   const hookOp   = a0 < 0.65 ? Math.min(1, a0 * 4) : Math.max(0, 1 - (a0 - 0.65) * 5.5);
   const hookBlur = a0 > 0.65 ? (a0 - 0.65) * 42 : 0;
 
@@ -228,10 +177,10 @@ const ProblemStatement = () => {
 
   // Current act (drives dot nav)
   const currentAct =
-    phase === 'pre'  ? 0 :
-    phase === 'post' ? 3 :
-    internalT < 0.30 ? 1 :
-    internalT < 0.64 ? 2 : 3;
+    scrollProg < LOCK_AT * 0.8 ? 0 : // Act 0 fading out
+    internalT >= 0.98 ? 3 :          // Post
+    internalT < 0.30 ? 1 :           // Act 1
+    internalT < 0.64 ? 2 : 3;        // Act 2 or 3
 
   // Panel visibility helper
   const panel = (act) => ({
@@ -262,7 +211,7 @@ const ProblemStatement = () => {
           ...panel(0),
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           // also visible during the brief crossfade into act 1
-          opacity: phase === 'pre' ? 1 : 0,
+          opacity: scrollProg < LOCK_AT * 1.1 ? 1 : 0,
         }}>
           <p
             className="text-2xl md:text-4xl lg:text-[2.8rem] font-light text-white text-center max-w-3xl px-8 leading-tight tracking-wide font-display"
@@ -282,7 +231,7 @@ const ProblemStatement = () => {
         ═══════════════════════════════════════════ */}
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
-          opacity: phase === 'locked' ? 1 : 0,
+          opacity: (scrollProg > LOCK_AT * 0.8 && scrollProg < 0.98) ? 1 : 0,
           transition: 'opacity 0.7s ease',
         }}>
           {/* Ground line */}
