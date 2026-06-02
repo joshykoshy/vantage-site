@@ -45,7 +45,7 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2 cursor-pointer group" onClick={() => window.scrollTo(0, 0)}>
-                    <span className="text-2xl font-bold tracking-[-0.05em] text-white group-hover:text-metallic transition-all duration-300 font-display">VANTAGE</span>
+                    <span className="text-2xl font-bold tracking-[-0.05em] text-white group-hover:text-metallic transition-all duration-300 font-display">VANTAGE VISION</span>
                 </Link>
 
                 {/* Desktop Nav */}

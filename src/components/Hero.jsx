@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 
 const Hero = () => {
-    const letters = "VANTAGE".split("");
+    const letters = "VANTAGE VISION".split("");
 
     return (
         <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
@@ -70,7 +70,7 @@ const Hero = () => {
 
                 {/* Main Headline — Letter Stagger */}
                 <div className="overflow-hidden mb-6">
-                    <div className="flex justify-center">
+                    <div className="flex flex-wrap justify-center">
                         {letters.map((letter, idx) => (
                             <motion.span
                                 key={idx}
@@ -81,7 +81,7 @@ const Hero = () => {
                                     delay: 0.1 + idx * 0.06,
                                     ease: [0.16, 1, 0.3, 1]
                                 }}
-                                className="text-6xl md:text-8xl lg:text-[9rem] font-bold tracking-[-0.06em] text-white font-display inline-block"
+                                className="text-5xl sm:text-7xl md:text-8xl lg:text-[8rem] font-bold tracking-[-0.06em] text-white font-display inline-block whitespace-pre"
                             >
                                 {letter}
                             </motion.span>
