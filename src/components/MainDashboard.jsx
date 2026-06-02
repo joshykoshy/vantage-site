@@ -23,6 +23,9 @@ const MainDashboard = () => {
     const hotOpacity    = useTransform(scrollYProgress, [0.08, 0.35], [0, 1]);
     // Ambient fill builds slowly
     const ambientOp     = useTransform(scrollYProgress, [0.3,  0.65], [0, 1]);
+    // Text reveals progressively as lamp lights up
+    const textRevealOp  = useTransform(scrollYProgress, [0.25, 0.45], [0, 1]);
+    const textRevealY   = useTransform(scrollYProgress, [0.25, 0.45], [20, 0]);
 
     return (
         // 250vh container — content pins at top while lamp plays
@@ -49,13 +52,13 @@ const MainDashboard = () => {
                         style={{
                             opacity: beamOpacity,
                             scaleY: beamScaleY,
+                            rotate: -30,
                             position: 'absolute',
                             top: 0,
                             left: '50%',
                             width: '1px',
                             height: '75vh',
                             transformOrigin: 'top center',
-                            transform: 'rotate(-30deg)',
                             background: 'linear-gradient(to bottom, rgba(0,212,255,0.6), transparent)',
                         }}
                     />
@@ -64,13 +67,13 @@ const MainDashboard = () => {
                         style={{
                             opacity: beamOpacity,
                             scaleY: beamScaleY,
+                            rotate: 30,
                             position: 'absolute',
                             top: 0,
                             left: '50%',
                             width: '1px',
                             height: '75vh',
                             transformOrigin: 'top center',
-                            transform: 'rotate(30deg)',
                             background: 'linear-gradient(to bottom, rgba(0,212,255,0.6), transparent)',
                         }}
                     />
@@ -79,10 +82,10 @@ const MainDashboard = () => {
                     <motion.div
                         style={{
                             opacity: hotOpacity,
+                            x: '-50%',
                             position: 'absolute',
                             top: 0,
                             left: '50%',
-                            transform: 'translateX(-50%)',
                             height: '1px',
                             width: '28rem',
                             background: 'linear-gradient(to right, transparent, rgba(0,212,255,0.9), transparent)',
@@ -93,10 +96,11 @@ const MainDashboard = () => {
                         style={{
                             opacity: hotOpacity,
                             scale: hotScale,
+                            x: '-50%',
+                            y: '-50%',
                             position: 'absolute',
                             top: 0,
                             left: '50%',
-                            transform: 'translateX(-50%) translateY(-50%)',
                             width: '220px',
                             height: '90px',
                             background: 'rgba(0,212,255,0.4)',
@@ -108,10 +112,10 @@ const MainDashboard = () => {
                     <motion.div
                         style={{
                             opacity: ambientOp,
+                            x: '-50%',
                             position: 'absolute',
                             top: '12%',
                             left: '50%',
-                            transform: 'translateX(-50%)',
                             width: '620px',
                             height: '360px',
                             background: 'rgba(0,212,255,0.045)',
@@ -146,10 +150,7 @@ const MainDashboard = () => {
                     </motion.h1>
 
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.5, duration: 0.7 }}
+                        style={{ opacity: textRevealOp, y: textRevealY }}
                         className="mt-6 text-vantage-grey text-base md:text-xl max-w-2xl leading-relaxed"
                     >
                         For 250 million people with severe visual impairment,
@@ -158,10 +159,7 @@ const MainDashboard = () => {
                     </motion.p>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.7, duration: 0.6 }}
+                        style={{ opacity: textRevealOp, y: textRevealY }}
                         className="mt-12 flex flex-wrap gap-y-8 gap-x-0 items-center justify-center"
                     >
                         {[
