@@ -22,7 +22,7 @@ const VantageVisionHalo = () => {
             {/* ── PART 1: Scroll Animation (300vh) ─────────────────────────────── */}
             {/* The scroll animation plays while user scrolls through this 300vh block.
                 The VANTAGE VISION HALO title is pinned on top of the animation. */}
-            <div ref={scrollRef} className="relative h-[300vh] bg-[#050505]">
+            <div ref={scrollRef} className="relative h-[300vh] bg-black">
                 {/* Sticky viewport — use 100svh so it fills the actual visible area on mobile (excluding browser chrome) */}
                 <div className="sticky top-0 left-0 w-full overflow-hidden" style={{ height: '100svh' }}>
 
@@ -31,24 +31,30 @@ const VantageVisionHalo = () => {
                         <ScrollSequenceBackground progress={scrollYProgress} />
                     </div>
 
-                    {/* Pinned title overlay — centred both axes, full width */}
-                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none px-5">
+                    {/* Pinned title overlay — separated for mobile to sandwich the video */}
+                    <div className="absolute inset-0 z-10 pointer-events-none px-5 py-[12svh] md:py-0 md:flex md:flex-col md:items-center md:justify-center">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            className="text-center w-full max-w-3xl mx-auto"
+                            className="w-full h-full flex flex-col justify-between md:justify-center md:gap-8 max-w-4xl mx-auto"
                         >
-                            <span className="text-[10px] sm:text-xs md:text-sm font-mono text-vantage-electric/70 tracking-[0.3em] uppercase mb-4 block">
-                                The Ultimate Edge
-                            </span>
-                            {/* Responsive title: small phones get text-4xl, larger devices scale up */}
-                            <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white mb-4 md:mb-6 font-display tracking-tighter uppercase leading-none">
-                                Vantage Vision Halo
-                            </h2>
-                            <p className="text-[#999999] w-full max-w-xs sm:max-w-sm md:max-w-2xl mx-auto text-sm sm:text-base md:text-xl font-light tracking-wide leading-relaxed">
-                                Split-Pack Architecture: Separating sensing from compute for weightless autonomy.
-                            </p>
+                            {/* Title Group - Pushed to top on mobile */}
+                            <div className="text-center flex flex-col items-center">
+                                <span className="text-[10px] sm:text-xs md:text-sm font-mono text-vantage-electric/70 tracking-[0.3em] uppercase mb-4 block">
+                                    The Ultimate Edge
+                                </span>
+                                <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold text-white md:mb-6 font-display tracking-tighter uppercase leading-none">
+                                    Vantage Vision Halo
+                                </h2>
+                            </div>
+                            
+                            {/* Description Group - Pushed to bottom on mobile, above scroll cue */}
+                            <div className="text-center flex flex-col items-center mb-24 md:mb-0">
+                                <p className="text-[#999999] w-full max-w-xs sm:max-w-sm md:max-w-2xl mx-auto text-sm sm:text-base md:text-xl font-light tracking-wide leading-relaxed">
+                                    Split-Pack Architecture: Separating sensing from compute for weightless autonomy.
+                                </p>
+                            </div>
                         </motion.div>
 
                         {/* Scroll cue — pinned to bottom with safe-area inset for home bar on iOS */}
